@@ -1,0 +1,54 @@
+body{
+	padding:0px;
+	margin: 0px;
+	text-align: center;
+}
+
+.barraBuscar{
+	width:100%;
+	text-align:center;
+	padding: 1% 0% 1% 0%;
+	background: #eee;
+}
+
+.barraBuscar input{
+	border: solid 1px;
+	font-size:18px;
+}
+
+.contenidoMedico{
+	text-align: left;
+	display: inline-block;
+	margin: 1% 0% 1% 0%;
+}
+
+.datosPersonales{
+}
+
+.historial{
+}
+
+.tablaConsultas{
+	border: 0px solid;
+	border-collapse: collapse;
+}
+
+.tablaConsultas td{
+	padding:1%;
+}
+
+.consultaPar{
+	background: #f4f4f4;
+}
+
+.consultaImpar{
+	background: #e4e4f4;
+}
+
+.consultaAbierta{
+	padding:2%;
+}
+
+.anchoTotal{
+	width:100%;
+}

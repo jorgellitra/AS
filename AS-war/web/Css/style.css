@@ -1,0 +1,130 @@
+.header img{
+    height: 82px;
+    float: left;
+    margin: 0 19px;
+}
+
+button{
+    float: right;
+    margin: 24px 23px 0px;
+    width: 100px;
+    height: 31px;
+}
+
+.color-fondo{
+    background-color: #f3f0ef;
+    height: 231px;
+    margin-left: 5px;
+    
+}
+
+.header{
+    background-color: lightblue;
+    height: 83px;
+    
+}
+
+.especialidades{
+    width: 20%;
+    float: left;
+    background-color: #d4ebfe;
+}
+.espacio{
+    height: 50px;
+}
+
+.contenido{
+    width: 80%;
+    float: right;
+}
+
+.user{
+    width: 10%;
+    float: left;
+    margin-left: 90px;
+}
+
+.alergias{
+    margin-left: 90px;
+}
+
+
+.user img{
+    width: 150px;
+    
+}
+
+.especialidades-ul li{
+    list-style: none;
+    font-size: 23px;
+}
+
+.especialidades-ul li a{
+    text-decoration: none;
+    color: black;
+}
+.texto-alergias{
+    width: 80%;
+    margin-left: 89px;
+}
+
+.footer{
+    height: 113px;
+    background-color: #0065b0;
+    bottom: 1px;
+    position: absolute;
+    width: 99%;
+}
+
+.footer-medico{
+    height: 113px;
+    background-color: #0065b0;
+    width: 99%;
+}
+
+
+.footer-ul{
+    padding-top: 30px;
+    text-align: center;    
+}
+
+.historial{
+    float: right;
+}
+
+.footer-ul li{
+   display: inline;
+   text-align: center;
+   margin: 0 10px 0 0;
+   font-size: 30px;
+   padding-right: 22px;
+   color: #ecf1f5;
+} 
+
+.datos{
+    width: 75%;
+    float: right;
+}
+
+
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.clearfix { display: inline-table; }
+    /* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+    /* End hide from IE-mac */
+    
+.contenido-body{
+    width: 80%;
+    margin-left: 10%;
+}
+
+
