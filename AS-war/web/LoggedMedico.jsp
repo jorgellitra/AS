@@ -3,6 +3,7 @@
     Created on : 20-mar-2017, 9:26:01
     Author     : entrar
 --%>
+<%@page import="Entity.Pacientemedico"%>
 <%@page import="Entity.Pacientes"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -26,49 +27,51 @@
                 <input type="submit" value="Buscar">
             </form><br>
 <div style="text-align: center">
-            <% if(request.getAttribute("b") != null){
-                List<Pacientes> listaPacientes = (List<Pacientes>) request.getAttribute("listaPacientes"); 
-                String pacienteBuscado = (String) request.getAttribute("b");
-                for(Pacientes p : listaPacientes){
-                    if(pacienteBuscado.equalsIgnoreCase(p.getNombre())){
-                        %>
-                        <table style="border: solid lightgray">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellidos</th>
-                                    <th>Grupo sanguíneo</th>
-                                    <th>Alergias</th>
-                                    <th>Historial</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><% out.print(p.getNombre());%></td>
-                                    <td><% out.print(p.getApellido()); %></td>
-                                    <td><% out.print(p.getGSanguineo()); %></td>
-                                    <td><% out.print(p.getAlergias()); %></td>
-                                    <td><a href='FrontController?command=ModificarHistorial&idpaciente=<% out.print(p.getId()); %>'>Ver historial</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    <%}
-                }
-            }
-            // busqueda avanzada para nombre iguales
-            /*
-            if(request.getParameter("buscador") != null){
-                List<Pacientes> listaPacientes = (List<Pacientes>) request.getAttribute("listaPacientes");
-                ArrayList<String> encontrados = (ArrayList<String>) request.getAttribute("encontrados");
-                for(Pacientes p : listaPacientes){
-                    for(int i = 0; i < encontrados.size(); i++){
-                        if(encontrados.get(i).equalsIgnoreCase(p.getNombre())){
-                            out.print("El paciente buscado es: " + p.getNombre());
+    <h2> Mis Pacientes </h2>
+    <%
+                
+                if(request.getAttribute("b") != null){
+                    String idMedico = String.valueOf(session.getAttribute("idMedico"));
+                    List<Pacientemedico> pm = (List<Pacientemedico>) request.getAttribute("listaPacMed");
+                    List<Pacientes> pacienteBuscado = (List<Pacientes>) request.getAttribute("listaPacientesEncontrados");
+                    for(Pacientemedico p : pm){
+                        for (Pacientes pEncontrados : pacienteBuscado) {
+                            if(pEncontrados.getNombre().equalsIgnoreCase(p.getIdPaciente().getNombre()) && String.valueOf(p.getIdMedico().getId()).equals(idMedico)){
+                            %>
+                            <table style="border: solid lightgray">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apellidos</th>
+                                        <th>Grupo sanguíneo</th>
+                                        <th>Alergias</th>
+                                        <th>Historial</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><% out.print(p.getIdPaciente().getNombre());%></td>
+                                        <td><% out.print(p.getIdPaciente().getApellido()); %></td>
+                                        <td><% out.print(p.getIdPaciente().getGSanguineo()); %></td>
+                                        <td><% out.print(p.getIdPaciente().getAlergias()); %></td>
+                                        <td><a href='FrontController?command=ModificarHistorial&idpaciente=<% out.print(p.getIdPaciente().getId()); %>'>Ver historial</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    <%
+                            }
                         }
                     }
-                }
+                }else{
+                    String idMedico = String.valueOf(session.getAttribute("idMedico"));
+                    List<Pacientemedico> listaPacMed = (List<Pacientemedico>) request.getAttribute("pacientemedico");
+                    for (Pacientemedico pm : listaPacMed) {
+                        if(String.valueOf(pm.getIdMedico().getId()).equals(idMedico)){
+                            out.print(pm.getIdPaciente().getNombre() + " " + pm.getIdPaciente().getApellido());%><br><%
+                        }
+                    }
             }
-            */
+
             %>
         </div>
         

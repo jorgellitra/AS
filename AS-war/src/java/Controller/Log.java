@@ -6,11 +6,9 @@
 package Controller;
 
 import Entity.Especialidades;
-import Entity.Login;
-import Entity.Medicos;
+import Entity.Pacientemedico;
 import Entity.Pacientes;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +24,7 @@ import javax.servlet.http.HttpSession;
  */
 public class Log extends FrontCommand {
 
+    PacientemedicoFacade pacientemedicoFacade = lookupPacientemedicoFacadeBean();
     MedicosFacade medicosFacade = lookupMedicosFacadeBean();
     LoginFacade loginFacade = lookupLoginFacadeBean();
     EspecialidadesFacade especialidadesFacade = lookupEspecialidadesFacadeBean();
@@ -36,6 +35,7 @@ public class Log extends FrontCommand {
         
         List<Pacientes> pacientes = (List<Pacientes>) pacientesFacade.findAll();
         List<Especialidades> especialidades = (List<Especialidades>) especialidadesFacade.findAll();
+        List<Pacientemedico> pacientemedico = (List<Pacientemedico>) pacientemedicoFacade.findAll();
         
         HttpSession session = request.getSession();
         String dni = request.getParameter("dni");
@@ -54,6 +54,7 @@ public class Log extends FrontCommand {
         }else{
             int idMedico = medicosFacade.obtenerID(dni);
             session.setAttribute("idMedico", idMedico);
+            request.setAttribute("pacientemedico", pacientemedico);
             request.setAttribute("pacientes", pacientes);
             try {
                 forward("/LoggedMedico.jsp");
@@ -97,6 +98,16 @@ public class Log extends FrontCommand {
         try {
             Context c = new InitialContext();
             return (MedicosFacade) c.lookup("java:global/AS/AS-ejb/MedicosFacade!Controller.MedicosFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private PacientemedicoFacade lookupPacientemedicoFacadeBean() {
+        try {
+            Context c = new InitialContext();
+            return (PacientemedicoFacade) c.lookup("java:global/AS/AS-ejb/PacientemedicoFacade!Controller.PacientemedicoFacade");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

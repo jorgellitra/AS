@@ -6,6 +6,7 @@
 package Controller;
 
 import Entity.Medicos;
+import Entity.Pacientemedico;
 import Entity.Pacientes;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,17 +43,26 @@ public class PacientesFacade extends AbstractFacade<Pacientes> {
         }
         return estado;
     }
-    
-    public ArrayList<String> comparaBusquedaAvanzado(String buscador) {
-        ArrayList<String> encontrados = new ArrayList();
-        List<Pacientes> listaPacientes = (List<Pacientes>) findAll();
-        for (Pacientes listaPaciente : listaPacientes) {
-            if(buscador.equalsIgnoreCase(listaPaciente.getNombre())){
-               encontrados.add(listaPaciente.getNombre());
+    public List<Pacientes> buscarPorNombre(String nombre){
+        try {
+            return em.createQuery("SELECT x FROM Pacientes x WHERE x.nombre = :nombre", Pacientes.class)
+                    .setParameter("nombre", nombre)
+                    .getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    /*public List<Pacientes> comparaBusquedaAvanzado(String buscador, int idMedico, List<Pacientemedico> listaPacMed) {
+        List<Pacientes> l = null;
+        String algo = buscador;
+        for (Pacientemedico p : listaPacMed) {
+            if(buscador.equalsIgnoreCase(p.getIdPaciente().getNombre()) && p.getIdMedico().getId() == idMedico){
+                String a = p.getIdPaciente().getNombre();
+               l.add(new Pacientes(p.getIdPaciente().getId(),p.getIdPaciente().getNombre(),p.getIdPaciente().getApellido(),p.getIdPaciente().getGSanguineo(),p.getIdPaciente().getAlergias(),p.getIdPaciente().getDni())); 
             }
         }
-        return encontrados;
-    }
+        return l;
+    }*/
 
     public int obtenerID(String dni) {
         List<Pacientes> listaPacientes = (List<Pacientes>)findAll();

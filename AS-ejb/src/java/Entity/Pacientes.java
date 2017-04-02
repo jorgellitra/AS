@@ -65,6 +65,15 @@ public class Pacientes implements Serializable {
     public Pacientes() {
     }
 
+    public Pacientes(Integer id, String nombre, String apellido, String gSanguineo, String alergias, Integer dni) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.gSanguineo = gSanguineo;
+        this.alergias = alergias;
+        this.dni = dni;
+    }
+
     public Pacientes(Integer id) {
         this.id = id;
     }

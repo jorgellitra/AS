@@ -23,18 +23,12 @@
                 <table class='table table-striped' style='border: solid lightgray'>
                     <tr>
                         <th><%
-                            String nombreCompletoPaciente = "";
-                            String idPaciente = (String) request.getAttribute("idPaciente");
-                            List<Pacientes> listaPacientes = (List<Pacientes>) request.getAttribute("listaPacientes");
-                            for(Pacientes p : listaPacientes){
-                                if(String.valueOf(p.getId()).equals(idPaciente)){
-                                    nombreCompletoPaciente = p.getNombre() + " " + p.getApellido();
-                                }
-                            }
+                            //&Buscador= out.print(idmedico);
+                            String relacion = String.valueOf(request.getAttribute("relacionado"));
                             List<Historial> historial = (List<Historial>) request.getAttribute("historial");
                             for(Historial h : historial){
-                                if(String.valueOf(h.getIdPacientemedico().getIdPaciente().getId()).equals(idPaciente)){
-                                %> Historia del paciente con id: <% out.print(nombreCompletoPaciente); %> realizada en <% out.print(h.getFecha()); %><a href='HistorialPacientes.jsp'>Volver a la vista anterior </a></th>
+                                if(String.valueOf(h.getIdPacientemedico().getId()).equals(relacion)){
+                                    %> Historia del paciente con id: <% out.print(h.getIdPacientes().getNombre() + " " + h.getIdPacientes().getApellido()); %> realizada en <% out.print(h.getFecha()); %><a href="FrontController?command=LoggedMedico&Buscador="> Volver a la vista anterior </a></th>
                                 </tr>
                                     <tr>
                                         <th>Síntomas</th>
@@ -49,7 +43,6 @@
                             <% }
                             }
                             %>
-                <input type="hidden" name="id" value="" />
                 <input type="hidden" name="command" value="Modificado" />
             </form>
         </div>

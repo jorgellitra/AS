@@ -4,6 +4,9 @@
     Author     : entrar
 --%>
 
+<%@page import="Entity.Pacientes"%>
+<%@page import="Entity.Historial"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,7 +19,28 @@
     <body>
         <div class="contenido-body">
             <div class="header"><img alt="" src='images/hist.png'><form action="login.jsp" style="text-align: right"><input type="submit" value="LogOut"></form></div>
-            AQUI VEZ LA SQL GIGANTE
+            <table class='table table-striped' style='border: solid lightgray'>
+                    <tr>
+                        <th><%
+                List<Historial> historial = (List<Historial>) request.getAttribute("Historial");
+                String idRelacion = (String) String.valueOf(request.getAttribute("idRelacion"));
+                for(Historial h : historial){
+                    if(String.valueOf(h.getIdPacientemedico().getId()).equals(idRelacion)){
+                        %> Paciente: <% out.print(h.getIdPacientes().getNombre() + " " + h.getIdPacientes().getApellido()); %> con la fecha <% out.print(h.getFecha()); %><a href='FrontController?command=LoggedPacientes&Buscador='>Volver a la vista anterior </a></th>
+                        </tr>
+                                    <tr>
+                                        <th>Síntomas</th>
+                                        <td><% out.print(h.getSintomas()); %></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan=2>
+                                            <input type='submit' value='Guardar cambios'>
+                                        </th>
+                                    </tr>			
+                                </table>
+                            <% }
+                            }
+                            %>
         </div>
         <div class="footer">
             <ul class="footer-ul">

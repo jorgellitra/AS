@@ -24,49 +24,52 @@ import javax.servlet.http.HttpSession;
  *
  * @author Usuario
  */
-public class ModificarHistorial extends FrontCommand{
+public class HistorialMedico extends FrontCommand{
 
+    HistorialFacade historialFacade = lookupHistorialFacadeBean();
     MedicosFacade medicosFacade = lookupMedicosFacadeBean();
     EspecialidadesFacade especialidadesFacade = lookupEspecialidadesFacadeBean();
-    PacientesFacade pacientesFacade = lookupPacientesFacadeBean();
-    HistorialFacade historialFacade = lookupHistorialFacadeBean();
     PacientemedicoFacade pacientemedicoFacade = lookupPacientemedicoFacadeBean();
+    PacientesFacade pacientesFacade = lookupPacientesFacadeBean();
     
     @Override
     public void proccess() {
-        List<Historial> historial = (List<Historial>) historialFacade.findAll();
-        List<Pacientemedico> pacmed = (List<Pacientemedico>) pacientemedicoFacade.findAll();
-        List<Pacientes> listaPacientes = (List<Pacientes>) pacientesFacade.findAll();
-        List<Medicos> listaMedicos = (List<Medicos>) medicosFacade.findAll();
-        List<Especialidades> listaEspecialidades = (List<Especialidades>) especialidadesFacade.findAll();
-        
         HttpSession session = request.getSession();
-        int idMedico = (int) session.getAttribute("idMedico");
-        String idPaciente = request.getParameter("idpaciente");
-        int relacionado = comprobarRelacion(listaMedicos,listaEspecialidades,idPaciente,pacmed,idMedico);
-        if(relacionado > 0){
-            try {
-                request.setAttribute("idPaciente", idPaciente);
-                request.setAttribute("listaPacientes", listaPacientes);
-                request.setAttribute("historial", historial);
-                request.setAttribute("relacionado", relacionado);
-                forward("/ModificarHistorial.jsp");
-            } catch (ServletException | IOException ex) {
-                Logger.getLogger(LoggedMedico.class.getName()).log(Level.SEVERE, null, ex);
+        int idSession = (int) session.getAttribute("idPaciente");
+        String especialidad = request.getParameter("especialidad");
+        List<Pacientes> listaPacientes = pacientesFacade.findAll();
+        List<Historial> Historial = historialFacade.findAll();
+        List<Pacientemedico> listaPacientemedico = pacientemedicoFacade.findAll();
+        List<Medicos> listaMedicos = medicosFacade.findAll();
+        List<Especialidades> listaEspecialidades = especialidadesFacade.findAll();
+        int idRelacion = comprobarRelacion(listaMedicos, listaEspecialidades, idSession, listaPacientemedico, especialidad);
+        try {
+            request.setAttribute("idRelacion", idRelacion);
+            request.setAttribute("Historial", Historial);
+            request.setAttribute("listaPacientes", listaPacientes);
+            forward("/HistorialMedico.jsp");
+        } catch (ServletException | IOException ex) {
+            Logger.getLogger(LoggedMedico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private int comprobarRelacion(List<Medicos>lm, List<Especialidades> le, int id, List<Pacientemedico> pacmed, String especialidadMedico) {
+        int relacionado = -1;
+        int i = 1;
+        for (Medicos m : lm){
+            for (Especialidades e : le) {
+                if(e.getNombre().equals(especialidadMedico) && e.getId().equals(m.getEspecialidad().getId())){
+                    for (Pacientemedico pm : pacmed) {
+                        if(pm.getIdPaciente().getId() == id && pm.getIdMedico().getId().equals(m.getId())){
+                            relacionado = pm.getId();
+                        }
+                    }
+                }
+                i++;
             }
         }
+        return relacionado;
     }
-
-    private HistorialFacade lookupHistorialFacadeBean() {
-        try {
-            Context c = new InitialContext();
-            return (HistorialFacade) c.lookup("java:global/AS/AS-ejb/HistorialFacade!Controller.HistorialFacade");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
-
     private PacientesFacade lookupPacientesFacadeBean() {
         try {
             Context c = new InitialContext();
@@ -75,16 +78,6 @@ public class ModificarHistorial extends FrontCommand{
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
         }
-    }
-
-    private int comprobarRelacion(List<Medicos>lm, List<Especialidades> le, String id, List<Pacientemedico> pacmed, int idMedico) {
-        int relacionado = -1;
-        for (Pacientemedico pm : pacmed) {
-            if(pm.getIdPaciente().getId() == Integer.parseInt(id) && pm.getIdMedico().getId() == idMedico ){
-                relacionado = pm.getId();
-            }
-        }
-        return relacionado;
     }
 
     private PacientemedicoFacade lookupPacientemedicoFacadeBean() {
@@ -117,4 +110,13 @@ public class ModificarHistorial extends FrontCommand{
         }
     }
 
+    private HistorialFacade lookupHistorialFacadeBean() {
+        try {
+            Context c = new InitialContext();
+            return (HistorialFacade) c.lookup("java:global/AS/AS-ejb/HistorialFacade!Controller.HistorialFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 }
