@@ -6,6 +6,7 @@
 package Controller;
 
 import Entity.Historial;
+import Entity.Medicos;
 import Entity.Pacientemedico;
 import Entity.Pacientes;
 import java.io.IOException;
@@ -23,23 +24,26 @@ import javax.servlet.http.HttpSession;
  * @author Usuario
  */
 public class ModificarHistorial extends FrontCommand{
+    
+    PacientesFacade pacientesFacade = lookupPacientesFacadeBean();
+    HistorialFacade historialFacade = lookupHistorialFacadeBean();
+    PacientemedicoFacade pacientemedicoFacade = lookupPacientemedicoFacadeBean();
+    
     @Override
     public void proccess() {
-        HttpSession session = request.getSession();
-        int idMedico = (int) session.getAttribute("idMedico");
-        PacientesFacade pacientesFacade = lookupPacientesFacadeBean();
-        HistorialFacade historialFacade = lookupHistorialFacadeBean();
-        PacientemedicoFacade pacientemedicoFacade = lookupPacientemedicoFacadeBean();
         List<Historial> historial = (List<Historial>) historialFacade.findAll();
         List<Pacientemedico> pacmed = (List<Pacientemedico>) pacientemedicoFacade.findAll();
         List<Pacientes> listaPacientes = (List<Pacientes>) pacientesFacade.findAll();
-        String id = request.getParameter("id");
-        boolean relacionado = comprobarRelacion(id,pacmed,idMedico);
+        
+        HttpSession session = request.getSession();
+        String idPaciente = request.getParameter("idpaciente");
+        int idMedico = (int) session.getAttribute("idMedico");
+        boolean relacionado = comprobarRelacion(idPaciente,pacmed,idMedico);
         if(relacionado){
             try {
-                request.setAttribute("id", id);
-                request.setAttribute("historial", historial);
+                request.setAttribute("idPaciente", idPaciente);
                 request.setAttribute("listaPacientes", listaPacientes);
+                request.setAttribute("historial", historial);
                 forward("/ModificarHistorial.jsp");
             } catch (ServletException | IOException ex) {
                 Logger.getLogger(LoggedMedico.class.getName()).log(Level.SEVERE, null, ex);

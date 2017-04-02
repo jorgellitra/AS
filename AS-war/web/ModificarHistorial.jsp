@@ -22,30 +22,34 @@
             <form action="FrontController">
                 <table class='table table-striped' style='border: solid lightgray'>
                     <tr>
-                        <th class='celdaGrande' colspan=2><%
+                        <th><%
                             String nombreCompletoPaciente = "";
+                            String idPaciente = (String) request.getAttribute("idPaciente");
                             List<Pacientes> listaPacientes = (List<Pacientes>) request.getAttribute("listaPacientes");
                             for(Pacientes p : listaPacientes){
-                                nombreCompletoPaciente = p.getNombre() + " " + p.getApellido();
+                                if(String.valueOf(p.getId()).equals(idPaciente)){
+                                    nombreCompletoPaciente = p.getNombre() + " " + p.getApellido();
+                                }
                             }
                             List<Historial> historial = (List<Historial>) request.getAttribute("historial");
                             for(Historial h : historial){
-                                %> Historia del paciente: <% out.print(nombreCompletoPaciente); %> realizada en <% out.print(h.getFecha()); %>
+                                if(String.valueOf(h.getIdPacientemedico().getIdPaciente().getId()).equals(idPaciente)){
+                                %> Historia del paciente con id: <% out.print(nombreCompletoPaciente); %> realizada en <% out.print(h.getFecha()); %><a href='HistorialPacientes.jsp'>Volver a la vista anterior </a></th>
+                                </tr>
+                                    <tr>
+                                        <th>Síntomas</th>
+                                        <td><textarea name='sintomas' > <% out.print(h.getSintomas()); %> </textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan=2>
+                                            <input type='submit' value='Guardar cambios'>
+                                        </th>
+                                    </tr>			
+                                </table>
+                            <% }
                             }
-                        
-                        %><a href='HistorialPacientes.jsp'>Volver a la vista anterior </a></th>
-                    </tr>
-                    <tr>
-                        <th>Síntomas</th>
-                        <td><textarea name='sintomas'></textarea></td>
-                    </tr>
-                    <tr>
-                        <th colspan=2>
-                            <input type='submit' value='Guardar cambios'>
-                        </th>
-                    </tr>			
-                </table>
-                <input type="hidden" name="id" value="<%request.getParameter("id");%>" />
+                            %>
+                <input type="hidden" name="id" value="" />
                 <input type="hidden" name="command" value="Modificado" />
             </form>
         </div>

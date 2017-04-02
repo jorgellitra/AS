@@ -58,10 +58,10 @@ public class PacientesFacade extends AbstractFacade<Pacientes> {
         List<Pacientes> listaPacientes = (List<Pacientes>)findAll();
         for (Pacientes l : listaPacientes) {
             if (l.getDni() == (Integer.parseInt(dni))) {
-                return l.getDni();
+                return l.getId();
             }
         }
         return -1;
     }
-    
+
 }

@@ -63,7 +63,7 @@ public class Medicos implements Serializable {
     public Medicos(Integer id) {
         this.id = id;
     }
-
+    
     public Integer getId() {
         return id;
     }

@@ -14,15 +14,18 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author entrar
  */
 public class LoggedMedico extends FrontCommand{
+    
+    PacientesFacade pacientesFacade = lookupPacientesFacadeBean();
+    
     @Override
     public void proccess() {
-        PacientesFacade pacientesFacade = lookupPacientesFacadeBean();
         String b = request.getParameter("Buscador");
         boolean encontrado = pacientesFacade.comparaBusqueda(b);
         if(encontrado){

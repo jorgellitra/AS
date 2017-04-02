@@ -6,6 +6,8 @@
 package Controller;
 
 import Entity.Especialidades;
+import Entity.Login;
+import Entity.Medicos;
 import Entity.Pacientes;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,32 +25,36 @@ import javax.servlet.http.HttpSession;
  * @author Usuario
  */
 public class Log extends FrontCommand {
+
+    MedicosFacade medicosFacade = lookupMedicosFacadeBean();
+    LoginFacade loginFacade = lookupLoginFacadeBean();
+    EspecialidadesFacade especialidadesFacade = lookupEspecialidadesFacadeBean();
+    PacientesFacade pacientesFacade = lookupPacientesFacadeBean();
+    
     @Override
     public void proccess() {
-        HttpSession session = request.getSession();
-        LoginFacade loginFacade = lookupLoginFacadeBean();
-        EspecialidadesFacade especialidadesFacade = lookupEspecialidadesFacadeBean();
-        PacientesFacade pacientesFacade = lookupPacientesFacadeBean();
-        MedicosFacade medicosFacade = lookupMedicosFacadeBean();
+        
         List<Pacientes> pacientes = (List<Pacientes>) pacientesFacade.findAll();
         List<Especialidades> especialidades = (List<Especialidades>) especialidadesFacade.findAll();
+        
+        HttpSession session = request.getSession();
         String dni = request.getParameter("dni");
         String clave = request.getParameter("clave");
         String estado = loginFacade.validarUser(dni,clave);
-        int idPaciente = pacientesFacade.obtenerID(dni);
-        int idMedico = medicosFacade.obtenerID(dni);
+        
         if(estado.equals("paciente")){
-            
-            request.setAttribute("especialidades", especialidades);
+            int idPaciente = pacientesFacade.obtenerID(dni);
             session.setAttribute("idPaciente", idPaciente);
+            request.setAttribute("especialidades", especialidades);
             try {
                 forward("/LoggedPacientes.jsp");
             } catch (ServletException | IOException ex) {
                 Logger.getLogger(LoggedMedico.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            request.setAttribute("pacientes", pacientes);
+            int idMedico = medicosFacade.obtenerID(dni);
             session.setAttribute("idMedico", idMedico);
+            request.setAttribute("pacientes", pacientes);
             try {
                 forward("/LoggedMedico.jsp");
             } catch (ServletException | IOException ex) {

@@ -34,7 +34,7 @@ public class MedicosFacade extends AbstractFacade<Medicos> {
         List<Medicos> listaMedicos = (List<Medicos>)findAll();
         for (Medicos l : listaMedicos) {
             if (l.getDni() == (Integer.parseInt(dni))) {
-                return l.getDni();
+                return l.getId();
             }
         }
         return -1;

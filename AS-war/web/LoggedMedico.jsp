@@ -25,7 +25,7 @@
                 <input type="hidden" name="command" value="LoggedMedico">
                 <input type="submit" value="Buscar">
             </form><br>
-        <div style="text-align: center">
+<div style="text-align: center">
             <% if(request.getAttribute("b") != null){
                 List<Pacientes> listaPacientes = (List<Pacientes>) request.getAttribute("listaPacientes"); 
                 String pacienteBuscado = (String) request.getAttribute("b");
