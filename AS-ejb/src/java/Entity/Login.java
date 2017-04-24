@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Usuario
+ * @author entrar
  */
 @Entity
 @Table(name = "LOGIN")
@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Login.findByRol", query = "SELECT l FROM Login l WHERE l.rol = :rol"),
     @NamedQuery(name = "Login.findByDni", query = "SELECT l FROM Login l WHERE l.dni = :dni")})
 public class Login implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

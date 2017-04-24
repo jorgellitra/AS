@@ -51,7 +51,7 @@ public class Log extends FrontCommand {
             } catch (ServletException | IOException ex) {
                 Logger.getLogger(LoggedMedico.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
+        }else if(estado.equals("medico")){
             int idMedico = medicosFacade.obtenerID(dni);
             session.setAttribute("idMedico", idMedico);
             request.setAttribute("pacientemedico", pacientemedico);

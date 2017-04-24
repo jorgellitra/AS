@@ -28,19 +28,20 @@
                     if(String.valueOf(h.getIdPacientemedico().getId()).equals(idRelacion)){
                         %> Paciente: <% out.print(h.getIdPacientes().getNombre() + " " + h.getIdPacientes().getApellido()); %> con la fecha <% out.print(h.getFecha()); %><a href='FrontController?command=LoggedPacientes&Buscador='>Volver a la vista anterior </a></th>
                         </tr>
-                                    <tr>
-                                        <th>Síntomas</th>
-                                        <td><% out.print(h.getSintomas()); %></td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan=2>
-                                            <input type='submit' value='Guardar cambios'>
-                                        </th>
-                                    </tr>			
-                                </table>
-                            <% }
-                            }
-                            %>
+                        <tr>
+                            <th>Síntomas</th>
+                            <td><% out.print(h.getSintomas()); %></td>
+                            <td><a href="FrontController?command">Ver mi tratamiento</a></td>
+                        </tr>
+                        <tr>
+                            <th colspan=2>
+                                <input type='submit' value='Guardar cambios'>
+                            </th>
+                        </tr>			
+                    </table>
+                <% }
+                }
+                %>
         </div>
         <div class="footer">
             <ul class="footer-ul">

@@ -7,19 +7,14 @@ package Entity;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,39 +25,29 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author entrar
  */
 @Entity
-@Table(name = "HISTORIAL")
+@Table(name = "MEDICINAS")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Historial.findAll", query = "SELECT h FROM Historial h"),
-    @NamedQuery(name = "Historial.findById", query = "SELECT h FROM Historial h WHERE h.id = :id"),
-    @NamedQuery(name = "Historial.findByFecha", query = "SELECT h FROM Historial h WHERE h.fecha = :fecha"),
-    @NamedQuery(name = "Historial.findBySintomas", query = "SELECT h FROM Historial h WHERE h.sintomas = :sintomas")})
-public class Historial implements Serializable {
+    @NamedQuery(name = "Medicinas.findAll", query = "SELECT m FROM Medicinas m"),
+    @NamedQuery(name = "Medicinas.findById", query = "SELECT m FROM Medicinas m WHERE m.id = :id"),
+    @NamedQuery(name = "Medicinas.findByNombre", query = "SELECT m FROM Medicinas m WHERE m.nombre = :nombre")})
+public class Medicinas implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "FECHA")
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
-    @Size(max = 200)
-    @Column(name = "SINTOMAS")
-    private String sintomas;
-    @OneToMany(mappedBy = "idHistorial")
+    @Size(max = 30)
+    @Column(name = "NOMBRE")
+    private String nombre;
+    @OneToMany(mappedBy = "idMedicinas")
     private Collection<Recetas> recetasCollection;
-    @JoinColumn(name = "ID_PACIENTES", referencedColumnName = "ID")
-    @ManyToOne
-    private Pacientes idPacientes;
-    @JoinColumn(name = "ID_PACIENTEMEDICO", referencedColumnName = "ID")
-    @ManyToOne
-    private Pacientemedico idPacientemedico;
 
-    public Historial() {
+    public Medicinas() {
     }
 
-    public Historial(Integer id) {
+    public Medicinas(Integer id) {
         this.id = id;
     }
 
@@ -74,20 +59,12 @@ public class Historial implements Serializable {
         this.id = id;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getSintomas() {
-        return sintomas;
-    }
-
-    public void setSintomas(String sintomas) {
-        this.sintomas = sintomas;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     @XmlTransient
@@ -97,22 +74,6 @@ public class Historial implements Serializable {
 
     public void setRecetasCollection(Collection<Recetas> recetasCollection) {
         this.recetasCollection = recetasCollection;
-    }
-
-    public Pacientes getIdPacientes() {
-        return idPacientes;
-    }
-
-    public void setIdPacientes(Pacientes idPacientes) {
-        this.idPacientes = idPacientes;
-    }
-
-    public Pacientemedico getIdPacientemedico() {
-        return idPacientemedico;
-    }
-
-    public void setIdPacientemedico(Pacientemedico idPacientemedico) {
-        this.idPacientemedico = idPacientemedico;
     }
 
     @Override
@@ -125,10 +86,10 @@ public class Historial implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Historial)) {
+        if (!(object instanceof Medicinas)) {
             return false;
         }
-        Historial other = (Historial) object;
+        Medicinas other = (Medicinas) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -137,7 +98,7 @@ public class Historial implements Serializable {
 
     @Override
     public String toString() {
-        return "Entity.Historial[ id=" + id + " ]";
+        return "Entity.Medicinas[ id=" + id + " ]";
     }
     
 }

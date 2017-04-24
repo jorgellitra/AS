@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Usuario
+ * @author entrar
  */
 @Entity
 @Table(name = "PACIENTES")
@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pacientes.findByAlergias", query = "SELECT p FROM Pacientes p WHERE p.alergias = :alergias"),
     @NamedQuery(name = "Pacientes.findByDni", query = "SELECT p FROM Pacientes p WHERE p.dni = :dni")})
 public class Pacientes implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -63,15 +62,6 @@ public class Pacientes implements Serializable {
     private Collection<Historial> historialCollection;
 
     public Pacientes() {
-    }
-
-    public Pacientes(Integer id, String nombre, String apellido, String gSanguineo, String alergias, Integer dni) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.gSanguineo = gSanguineo;
-        this.alergias = alergias;
-        this.dni = dni;
     }
 
     public Pacientes(Integer id) {

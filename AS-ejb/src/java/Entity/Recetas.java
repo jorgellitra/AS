@@ -6,26 +6,24 @@
 package Entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Usuario
+ * @author entrar
  */
 @Entity
 @Table(name = "RECETAS")
@@ -35,10 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Recetas.findById", query = "SELECT r FROM Recetas r WHERE r.id = :id"),
     @NamedQuery(name = "Recetas.findByInicio", query = "SELECT r FROM Recetas r WHERE r.inicio = :inicio"),
     @NamedQuery(name = "Recetas.findByFin", query = "SELECT r FROM Recetas r WHERE r.fin = :fin"),
-    @NamedQuery(name = "Recetas.findByMedicinas", query = "SELECT r FROM Recetas r WHERE r.medicinas = :medicinas"),
-    @NamedQuery(name = "Recetas.findByTomas", query = "SELECT r FROM Recetas r WHERE r.tomas = :tomas")})
+    @NamedQuery(name = "Recetas.findByTomas", query = "SELECT r FROM Recetas r WHERE r.tomas = :tomas"),
+    @NamedQuery(name = "Recetas.findByTomadas", query = "SELECT r FROM Recetas r WHERE r.tomadas = :tomadas")})
 public class Recetas implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -51,13 +48,16 @@ public class Recetas implements Serializable {
     @Column(name = "FIN")
     @Temporal(TemporalType.DATE)
     private Date fin;
-    @Size(max = 100)
-    @Column(name = "MEDICINAS")
-    private String medicinas;
     @Column(name = "TOMAS")
     private Integer tomas;
-    @OneToMany(mappedBy = "idRecetas")
-    private Collection<Historial> historialCollection;
+    @Column(name = "TOMADAS")
+    private Integer tomadas;
+    @JoinColumn(name = "ID_MEDICINAS", referencedColumnName = "ID")
+    @ManyToOne
+    private Medicinas idMedicinas;
+    @JoinColumn(name = "ID_HISTORIAL", referencedColumnName = "ID")
+    @ManyToOne
+    private Historial idHistorial;
 
     public Recetas() {
     }
@@ -90,14 +90,6 @@ public class Recetas implements Serializable {
         this.fin = fin;
     }
 
-    public String getMedicinas() {
-        return medicinas;
-    }
-
-    public void setMedicinas(String medicinas) {
-        this.medicinas = medicinas;
-    }
-
     public Integer getTomas() {
         return tomas;
     }
@@ -106,13 +98,28 @@ public class Recetas implements Serializable {
         this.tomas = tomas;
     }
 
-    @XmlTransient
-    public Collection<Historial> getHistorialCollection() {
-        return historialCollection;
+    public Integer getTomadas() {
+        return tomadas;
     }
 
-    public void setHistorialCollection(Collection<Historial> historialCollection) {
-        this.historialCollection = historialCollection;
+    public void setTomadas(Integer tomadas) {
+        this.tomadas = tomadas;
+    }
+
+    public Medicinas getIdMedicinas() {
+        return idMedicinas;
+    }
+
+    public void setIdMedicinas(Medicinas idMedicinas) {
+        this.idMedicinas = idMedicinas;
+    }
+
+    public Historial getIdHistorial() {
+        return idHistorial;
+    }
+
+    public void setIdHistorial(Historial idHistorial) {
+        this.idHistorial = idHistorial;
     }
 
     @Override

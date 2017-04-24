@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Usuario
+ * @author entrar
  */
 @Entity
 @Table(name = "PACIENTEMEDICO")
@@ -32,7 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Pacientemedico.findAll", query = "SELECT p FROM Pacientemedico p"),
     @NamedQuery(name = "Pacientemedico.findById", query = "SELECT p FROM Pacientemedico p WHERE p.id = :id")})
 public class Pacientemedico implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
