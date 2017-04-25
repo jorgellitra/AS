@@ -31,7 +31,8 @@
                         <tr>
                             <th>Síntomas</th>
                             <td><% out.print(h.getSintomas()); %></td>
-                            <td><a href="FrontController?command">Ver mi tratamiento</a></td>
+                            <%--AÑADIR ID ESPECIALIDAD--%>
+                            <td><a href="FrontController?command=miTratamiento&idhistorial=<%out.print(h.getId());%>">Ver mi tratamiento</a></td>
                         </tr>
                         <tr>
                             <th colspan=2>

@@ -22,6 +22,7 @@
                         <%
                             List<Especialidades> list = (List<Especialidades>) request.getAttribute("especialidades");
                             for(Especialidades e : list){
+                                //PONER IDESPECIALIDAD NO NOMBRE
                                 %><a href="FrontController?command=HistorialMedico&especialidad=<% out.print(e.getNombre()); %>"><% out.print(e.getNombre()); %></a><br><%
                             }
                         %>

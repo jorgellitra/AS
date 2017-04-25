@@ -23,7 +23,6 @@
                 <table class='table table-striped' style='border: solid lightgray'>
                     <tr>
                         <th><%
-                            //&Buscador= out.print(idmedico);
                             String relacion = String.valueOf(request.getAttribute("relacionado"));
                             List<Historial> historial = (List<Historial>) request.getAttribute("historial");
                             for(Historial h : historial){
