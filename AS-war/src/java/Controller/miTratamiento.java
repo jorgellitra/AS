@@ -29,7 +29,9 @@ public class miTratamiento extends FrontCommand{
     public void proccess() {
         String idHistorial = request.getParameter("idhistorial");
         List<Recetas> recetasFiltradas = recetasFacade.adquirirRecetasHistorial(idHistorial);    
+        List<Medicinas> listaMedicinas = (List<Medicinas>) medicinasFacade.findAll();
         request.setAttribute("recetasFiltradas", recetasFiltradas);
+        request.setAttribute("listaMedicinas", listaMedicinas);
         try {
             forward("/miTratamiento.jsp");
         } catch (ServletException ex) {

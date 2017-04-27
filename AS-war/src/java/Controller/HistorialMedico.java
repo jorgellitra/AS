@@ -36,13 +36,13 @@ public class HistorialMedico extends FrontCommand{
     public void proccess() {
         HttpSession session = request.getSession();
         int idSession = (int) session.getAttribute("idPaciente");
-        String especialidad = request.getParameter("especialidad");
+        String idEspecialidad = request.getParameter("idEspecialidad");
         List<Pacientes> listaPacientes = pacientesFacade.findAll();
         List<Historial> Historial = historialFacade.findAll();
         List<Pacientemedico> listaPacientemedico = pacientemedicoFacade.findAll();
         List<Medicos> listaMedicos = medicosFacade.findAll();
         List<Especialidades> listaEspecialidades = especialidadesFacade.findAll();
-        int idRelacion = comprobarRelacion(listaMedicos, listaEspecialidades, idSession, listaPacientemedico, especialidad);
+        int idRelacion = comprobarRelacion(listaMedicos, listaEspecialidades, idSession, listaPacientemedico, idEspecialidad);
         try {
             request.setAttribute("idRelacion", idRelacion);
             request.setAttribute("Historial", Historial);
@@ -53,19 +53,17 @@ public class HistorialMedico extends FrontCommand{
         }
     }
     
-    private int comprobarRelacion(List<Medicos>lm, List<Especialidades> le, int id, List<Pacientemedico> pacmed, String especialidadMedico) {
+    private int comprobarRelacion(List<Medicos>lm, List<Especialidades> le, int id, List<Pacientemedico> pacmed, String idEspecialidad) {
         int relacionado = -1;
-        int i = 1;
         for (Medicos m : lm){
             for (Especialidades e : le) {
-                if(e.getNombre().equals(especialidadMedico) && e.getId().equals(m.getEspecialidad().getId())){
+                if(e.getId() == Integer.parseInt(idEspecialidad) && e.getId().equals(m.getEspecialidad().getId())){
                     for (Pacientemedico pm : pacmed) {
                         if(pm.getIdPaciente().getId() == id && pm.getIdMedico().getId().equals(m.getId())){
                             relacionado = pm.getId();
                         }
                     }
                 }
-                i++;
             }
         }
         return relacionado;

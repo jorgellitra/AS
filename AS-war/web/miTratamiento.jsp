@@ -1,3 +1,4 @@
+<%@page import="Entity.Medicinas"%>
 <%@page import="Entity.Recetas"%>
 <%@page import="Entity.Pacientes"%>
 <%@page import="Entity.Historial"%>
@@ -33,18 +34,24 @@
                     <tbody>
                         <%
                         List<Recetas> lista = (List<Recetas>) request.getAttribute("recetasFiltradas");
+                        List<Medicinas> listaMedicinas = (List<Medicinas>) request.getAttribute("listaMedicinas");
                         int tomar = 0;
                         for(Recetas r : lista){
                             tomar = r.getTomas() - r.getTomadas();
-                            for(int i = 0; i < tomar; i++){
-                                %>
+                            for(Medicinas m : listaMedicinas){
+                                for(int i = 0; i < tomar; i++){%>
                                 <tr>
-                                    <td><%out.print(r.getInicio());%></td>
-                                    <td><%out.print(r.getInicio());%></td>
-                                    <td></td>
+                                    <td><%if(r.getIdMedicinas().getId() == m.getId()){
+                                            out.print(r.getInicio());%></td>
+                                    <td><%  out.print(r.getFin());%></td>
+                                    <td><%
+                                            out.print(r.getIdMedicinas().getNombre());
+                                        }
+                                    %></td>
                                     <%--<td><a href="FrontController?command=HistorialMedico&idespecialidad="</a></td>--%>
                                 </tr>
-                            <%}
+                            <% }
+                            }
                         }
                         %>
                         <%--

@@ -10,7 +10,10 @@
     </head>
     <body>
         <div class="contenido-body">
-        
+        <% HttpSession s = request.getSession();
+           s.removeAttribute("idMedico");
+           s.removeAttribute("idPaciente");
+        %>
         <div class="header"><img alt="" src='images/hist.png'></div>
         <div style="text-align: center">
             <form action="FrontController">

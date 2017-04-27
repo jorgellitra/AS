@@ -19,7 +19,7 @@
     <body>
         <div class="contenido-body">
             <div class="header">
-                <img alt="" src='images/hist.png'><form action="login.jsp" style="text-align: right"><input type="submit" name="Login" value="LogOut"></form>
+                <img alt="" src='images/hist.png'><form action="Login.jsp" style="text-align: right"><input type="submit" name="Login" value="LogOut"></form>
             </div>
             <form action="FrontController" style="text-align: center">
                 Búsqueda: <input type="text" name="Buscador"  placeholder="Ej: Ana Placido" value="">
@@ -29,7 +29,6 @@
 <div style="text-align: center">
     <h2> Mis Pacientes </h2>
     <%
-                
                 if(request.getAttribute("b") != null){
                     String idMedico = String.valueOf(session.getAttribute("idMedico"));
                     List<Pacientemedico> pm = (List<Pacientemedico>) request.getAttribute("listaPacMed");
