@@ -31,7 +31,7 @@ public class HistorialFacade extends AbstractFacade<Historial> {
         super(Historial.class);
     }
 
-    boolean update(int id,String sintomas) {
+    public boolean update(int id,String sintomas) {
         boolean cambiado = false;
         List<Historial> historial = findAll();
         for (Historial h : historial) {

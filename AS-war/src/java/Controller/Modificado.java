@@ -5,7 +5,9 @@
  */
 package Controller;
 
+import Entity.Historial;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -19,22 +21,27 @@ import javax.servlet.http.HttpSession;
  * @author Usuario
  */
 public class Modificado extends FrontCommand {
+    
+    HistorialFacade historialFacade = lookupHistorialFacadeBean();
+    
     @Override
     public void proccess() {
-        /*HistorialFacade historialFacade = lookupHistorialFacadeBean();
         HttpSession session = request.getSession();
-        String id = request.getParameter("id");
+        String idHistorial = request.getParameter("id");
         String sintomas = request.getParameter("sintomas");
-        boolean cambiado = historialFacade.update(Integer.parseInt(id),sintomas);
+        boolean cambiado = historialFacade.update(Integer.parseInt(idHistorial),sintomas);
+        List<Historial> historial = (List<Historial>) historialFacade.findAll();
+        for (Historial h : historial) {
+            String aaa = h.getSintomas();
+        }
         if(cambiado){
-            session.setAttribute("id", id);
-            session.setAttribute("sintomas", sintomas);*/
+            session.setAttribute("sintomas", sintomas);
             try {
                 forward("/ModificarHistorial.jsp");
             } catch (ServletException | IOException ex) {
                 Logger.getLogger(LoggedMedico.class.getName()).log(Level.SEVERE, null, ex);
             }
-        //}
+        }
     }
 
     private HistorialFacade lookupHistorialFacadeBean() {

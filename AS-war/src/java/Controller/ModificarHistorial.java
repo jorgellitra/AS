@@ -77,10 +77,10 @@ public class ModificarHistorial extends FrontCommand{
         }
     }
 
-    private int comprobarRelacion(List<Medicos>lm, List<Especialidades> le, String id, List<Pacientemedico> pacmed, int idMedico) {
+    private int comprobarRelacion(List<Medicos>lm, List<Especialidades> le, String idPaciente, List<Pacientemedico> pacmed, int idMedico) {
         int relacionado = -1;
         for (Pacientemedico pm : pacmed) {
-            if(pm.getIdPaciente().getId() == Integer.parseInt(id) && pm.getIdMedico().getId() == idMedico ){
+            if(pm.getIdPaciente().getId() == Integer.parseInt(idPaciente) && pm.getIdMedico().getId() == idMedico ){
                 relacionado = pm.getId();
             }
         }
