@@ -11,6 +11,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,7 +30,31 @@ public class RecetasFacade extends AbstractFacade<Recetas> {
         }
         return lista2;
     }
-
+    
+    public int updateTomadas(int idReceta){
+        try {
+            Integer id = (Integer) idReceta;
+            Query query = em.createQuery("UPDATE APP.RECETAS x SET x.TOMADAS = x.TOMADAS + 1 WHERE x.ID = 1");
+            int tomada = query.executeUpdate();
+            return tomada;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    
+    public int aumentarTomadas(int idReceta) {
+        int aumentado = 0;
+        List<Recetas> listaRecetas = (List<Recetas>) findAll();    
+        Integer i;
+        for(Recetas r : listaRecetas){
+            if(r.getId() == idReceta){
+                i = r.getTomadas() + 1;
+                r.setTomadas(i);
+                aumentado = 1;
+            }
+        }
+        return aumentado;
+    }
     @PersistenceContext(unitName = "AS-ejbPU")
     private EntityManager em;
 

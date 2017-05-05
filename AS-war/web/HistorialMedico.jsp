@@ -18,31 +18,29 @@
     </head>
     <body>
         <div class="contenido-body">
-            <div class="header"><img alt="" src='images/hist.png'><form action="login.jsp" style="text-align: right"><input type="submit" value="LogOut"></form></div>
-            <table class='table table-striped' style='border: solid lightgray'>
+            <div class="header">
+                <img alt="" src='images/hist.png'>
+                <form action="login.jsp" style="text-align: right">
+                    <input type="submit" value="LogOut">
+                </form>
+            </div>
+            <%String relacion = String.valueOf(request.getAttribute("idRelacion"));
+            List<Historial> historial = (List<Historial>) request.getAttribute("Historial");
+            for(Historial h : historial){
+                if(String.valueOf(h.getIdPacientemedico().getId()).equals(relacion)){%>
+                <table class='table table-striped' style='border: solid lightgray'>
+                    <tr style="text-align: center">
+                        <td>Historial con el medico <%out.print(h.getIdPacientemedico().getIdMedico().getNombre() + " " + h.getIdPacientemedico().getIdMedico().getApellidos()); %> realizada el <%out.print(h.getFecha());%></td>
+                    </tr>
                     <tr>
-                        <th><%
-                List<Historial> historial = (List<Historial>) request.getAttribute("Historial");
-                String idRelacion = (String) String.valueOf(request.getAttribute("idRelacion"));
-                for(Historial h : historial){
-                    if(String.valueOf(h.getIdPacientemedico().getId()).equals(idRelacion)){
-                        %> Paciente: <% out.print(h.getIdPacientes().getNombre() + " " + h.getIdPacientes().getApellido()); %> con la fecha <% out.print(h.getFecha()); %><a href='FrontController?command=LoggedPacientes&Buscador='>Volver a la vista anterior </a></th>
-                        </tr>
-                        <tr>
-                            <th>Síntomas</th>
-                            <td><% out.print(h.getSintomas()); %></td>
-                            <td><a href="FrontController?command=miTratamiento&idhistorial=<%out.print(h.getId());%>">Ver mi tratamiento</a></td>
-                        </tr>
-                        <tr>
-                            <th colspan=2>
-                                <input type='submit' value='Guardar cambios'>
-                            </th>
-                        </tr>			
-                    </table>
-                <% }
-                }
-                %>
-        </div>
+                        <td>Síntomas</td>
+                        <td><%out.print(h.getSintomas()); %></td>
+                        <td><a href="FrontController?command=miTratamiento&idhistorial=<%out.print(h.getId());%>"> Ver mi tratamiento </a></td>
+                    </tr>
+                </table>
+                <%}
+            }%>
+        </div><a href="FrontController?command=LoggedPacientes"> Volver a la vista anterior </a>  
         <div class="footer">
             <ul class="footer-ul">
                 <li>Aviso Legal</li>

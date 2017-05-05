@@ -24,32 +24,32 @@
                     <input type="submit" value="LogOut">
                 </form>
             </div>
+            <div>
             <%String relacion = String.valueOf(request.getAttribute("relacionado"));
             List<Historial> historial = (List<Historial>) request.getAttribute("historial");
-            Historial hist = null;
             for(Historial h : historial){
-                if(String.valueOf(h.getIdPacientemedico().getId()).equals(relacion)){
-                    hist = h;
-                }
-            }%>
-            <div>
+                if(String.valueOf(h.getIdPacientemedico().getId()).equals(relacion)){%>
                 <form action="FrontController">
                     <table class='table table-striped' style='border: solid lightgray'>
-                        <tr>Historial del paciente <% out.print(hist.getIdPacientes().getNombre() + " " + hist.getIdPacientes().getApellido()); %>realizada el <% out.print(hist.getFecha());%>
+                        <tr>
+                            <td>Historial del paciente <%out.print(h.getIdPacientes().getNombre() + " " + h.getIdPacientes().getApellido()); %>realizada el <%out.print(h.getFecha());%></td>
                         </tr>
                         <tr>
                             <td>Síntomas</td>
-                            <td><textarea rows="4" cols="50" name='sintomas' > <% out.print(hist.getSintomas()); %> </textarea></td>
+                            <td><textarea rows="4" cols="50" name='sintomas' ><%out.print(h.getSintomas()); %> </textarea></td>
                         </tr>
                         <tr>
                             <th colspan=2>
                                 <input type='submit' value='Guardar cambios'>
                                 <input type="hidden" name="command" value="Modificado" />
-                                <input type="hidden" name="id" value="<% out.print(hist.getId()); %>"/>
+                                <input type="hidden" name="idHistorial" value="<%out.print(h.getId()); %>"/>
+                                <input type="hidden" name="idPacMed" value="<%out.print(h.getIdPacientemedico().getId()); %>"/>
                             </th>
                         </tr>
                     </table><a href="FrontController?command=LoggedMedico&Buscador="> Volver a la vista anterior </a>
-                </form>
+                </form>    
+                <%}
+            }%>
             </div>
         </div>
         <div class="footer">

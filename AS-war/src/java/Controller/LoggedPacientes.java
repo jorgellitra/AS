@@ -17,20 +17,24 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
-
+import java.util.Timer;
 /**
  *
  * @author Usuario
  */
 public class LoggedPacientes extends FrontCommand{
 
+    //Timers.Timer timer = lookupTimerBean();
+
     EspecialidadesFacade especialidadesFacade = lookupEspecialidadesFacadeBean();
     
     @Override
     public void proccess() {
-        
+        //String notificacion = timer.myTimer();
         List<Especialidades> especialidades = (List<Especialidades>) especialidadesFacade.findAll();
         request.setAttribute("especialidades", especialidades);
+        //request.setAttribute("notificacion", notificacion);
+        
         try {
             forward("/LoggedPacientes.jsp");
         } catch (ServletException | IOException ex) {
@@ -42,6 +46,16 @@ public class LoggedPacientes extends FrontCommand{
         try {
             Context c = new InitialContext();
             return (EspecialidadesFacade) c.lookup("java:global/AS/AS-ejb/EspecialidadesFacade!Controller.EspecialidadesFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private Timers.Timer lookupTimerBean() {
+        try {
+            Context c = new InitialContext();
+            return (Timers.Timer) c.lookup("java:global/AS/AS-ejb/Timer!Timers.Timer");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

@@ -36,27 +36,22 @@ public class ModificarHistorial extends FrontCommand{
     public void proccess() {
         List<Historial> historial = (List<Historial>) historialFacade.findAll();
         List<Pacientemedico> pacmed = (List<Pacientemedico>) pacientemedicoFacade.findAll();
-        List<Pacientes> listaPacientes = (List<Pacientes>) pacientesFacade.findAll();
         List<Medicos> listaMedicos = (List<Medicos>) medicosFacade.findAll();
         List<Especialidades> listaEspecialidades = (List<Especialidades>) especialidadesFacade.findAll();
         
         HttpSession session = request.getSession();
         int idMedico = (int) session.getAttribute("idMedico");
         String idPaciente = request.getParameter("idpaciente");
-        int relacionado = comprobarRelacion(listaMedicos,listaEspecialidades,idPaciente,pacmed,idMedico);
-        if(relacionado > 0){
-            try {
-                request.setAttribute("idPaciente", idPaciente);
-                request.setAttribute("listaPacientes", listaPacientes);
-                request.setAttribute("historial", historial);
-                request.setAttribute("relacionado", relacionado);
-                forward("/ModificarHistorial.jsp");
-            } catch (ServletException | IOException ex) {
-                Logger.getLogger(LoggedMedico.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        String relacionado = String.valueOf(comprobarRelacion(listaMedicos,listaEspecialidades,idPaciente,pacmed,idMedico));
+        try {
+            request.setAttribute("historial", historial);
+            request.setAttribute("relacionado", relacionado);
+            forward("/ModificarHistorial.jsp");
+        } catch (ServletException | IOException ex) {
+            Logger.getLogger(LoggedMedico.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     private HistorialFacade lookupHistorialFacadeBean() {
         try {
             Context c = new InitialContext();

@@ -18,34 +18,38 @@ import javax.servlet.ServletException;
 
 /**
  *
- * @author Jorge daniel
+ * @author Usuario
  */
-public class miTratamiento extends FrontCommand{
+public class Tomada extends FrontCommand{
+
+    MedicinasFacade medicinasFacade = lookupMedicinasFacadeBean();
     
     RecetasFacade recetasFacade = lookupRecetasFacadeBean();
-    MedicinasFacade medicinasFacade = lookupMedicinasFacadeBean();
     
     @Override
     public void proccess() {
-        String idHistorial = request.getParameter("idhistorial");
-        List<Recetas> recetasFiltradas = recetasFacade.adquirirRecetasHistorial(idHistorial);    
+        
+        String idhistorial = request.getParameter("idhistorial");
+        String idMedicina = request.getParameter("idMedicina");
         List<Medicinas> listaMedicinas = (List<Medicinas>) medicinasFacade.findAll();
-        request.setAttribute("recetasFiltradas", recetasFiltradas);
-        request.setAttribute("listaMedicinas", listaMedicinas);
+        List<Recetas> listaRecetas = (List<Recetas>) recetasFacade.adquirirRecetasHistorial(idhistorial);
+        int tomada = 0;
+        for(Recetas r : listaRecetas){
+            for(Medicinas m : listaMedicinas){
+                if(r.getIdMedicinas().getId().equals(m.getId()) && m.getId() == Integer.parseInt(idMedicina)){
+                    tomada = recetasFacade.aumentarTomadas(r.getId());
+                    //tomada = recetasFacade.updateTomadas(r.getId());
+                }
+            }
+        }
+        List<Recetas> listaRecetas2 = (List<Recetas>) recetasFacade.adquirirRecetasHistorial(idhistorial);
         try {
+            request.setAttribute("tomada", tomada);
+            request.setAttribute("recetasFiltradas", listaRecetas2);
+            request.setAttribute("listaMedicinas", listaMedicinas);
             forward("/miTratamiento.jsp");
         } catch (ServletException | IOException ex) {
             Logger.getLogger(UnknownCommand.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private MedicinasFacade lookupMedicinasFacadeBean() {
-        try {
-            Context c = new InitialContext();
-            return (MedicinasFacade) c.lookup("java:global/AS/AS-ejb/MedicinasFacade!Controller.MedicinasFacade");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
         }
     }
 
@@ -53,6 +57,16 @@ public class miTratamiento extends FrontCommand{
         try {
             Context c = new InitialContext();
             return (RecetasFacade) c.lookup("java:global/AS/AS-ejb/RecetasFacade!Controller.RecetasFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private MedicinasFacade lookupMedicinasFacadeBean() {
+        try {
+            Context c = new InitialContext();
+            return (MedicinasFacade) c.lookup("java:global/AS/AS-ejb/MedicinasFacade!Controller.MedicinasFacade");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

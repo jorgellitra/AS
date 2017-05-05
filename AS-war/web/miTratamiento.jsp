@@ -39,44 +39,23 @@
                         for(Recetas r : lista){
                             tomar = r.getTomas() - r.getTomadas();
                             for(Medicinas m : listaMedicinas){
-                                for(int i = 0; i < tomar; i++){%>
+                                for(int i = 0; i < tomar; i++){
+                                    if(r.getIdMedicinas().getId() == m.getId()){%>
                                 <tr>
-                                    <td><%if(r.getIdMedicinas().getId() == m.getId()){
-                                            out.print(r.getInicio());%></td>
-                                    <td><%  out.print(r.getFin());%></td>
-                                    <td><%
-                                            out.print(r.getIdMedicinas().getNombre());
-                                        }
-                                    %></td>
-                                    <%--<td><a href="FrontController?command=HistorialMedico&idespecialidad="</a></td>--%>
+                                    <td><%out.print(r.getInicio());%></td>
+                                    <td><%out.print(r.getFin());%></td>
+                                    <td><%out.print(r.getIdMedicinas().getNombre());%></td>
+                                    <td><a href="FrontController?command=Tomada&idhistorial=<%out.print(r.getIdHistorial().getId());%>&idMedicina=<%out.print(m.getId());%>"><button>Tomar</button></a></td>
                                 </tr>
-                            <% }
+                                <%}
+                                }
                             }
-                        }
+                        }   
                         %>
-                        <%--
-                        String idHistorial = request.getParameter("idespecialidad");
-                        for ($i=0;$i<$registros;$i++){
-                            $row = pg_fetch_array ( $result,$i );
-                            $tomas=$row['tomas'];
-                            $tomadas=$row['tomadas'];
-                            $tomar=$tomas-$tomadas;
-                            for($j=0;$j<$tomar;$j++){
-                                echo "<tr>";
-                                echo "<td>".$row['inicio']."</td>";
-                                echo "<td>".$row['fin']."</td>";
-                                $id_medicinas= $row['id_medicinas'];
-                                $sqltxt="SELECT * FROM medicinas WHERE id=".$id_medicinas."";
-                                $result2 = pg_query ($dbconn, $sqltxt ) or die("Error en la consulta SQL");
-                                $row2 = pg_fetch_array ( $result2,0 );
-
-                                echo "<td>".$row2['nombre']."</td>";
-                                echo "CHeckBOXUS";
-                                echo "<td><a href='historialMedicos.php?idespecialidad=".$_GET['idespecialidad']."'>Volver <img src='img/back.png'></a></td>";
-                                echo "</tr>";
-                            --%>
                     </tbody>
                 </table>
+                <%if(String.valueOf(request.getAttribute("tomada")).equals("1")) out.print("Pastilla tomada");%>
+                <a href="FrontController?command=HistorialMedico&idespecialidad=">Volver a mi historial médico</a>
             </div>
         <div class="footer">
             <ul class="footer-ul">

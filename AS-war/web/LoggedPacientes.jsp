@@ -14,8 +14,7 @@
         <div class="contenido-body">
             <div class="header"><img alt="" src='images/hist.png'><a href="Login.jsp"><button>Log out</button></a>
             </div>
-            <h2> CONECTADO </h2>
-
+            <% //if(request.getAttribute("notificacion") != null) out.print(request.getAttribute("notificacion")); %>
             <div style="center">
                 <div style="text-align: left"><h3>Especialidades</h3>
                     <form>

@@ -26,24 +26,22 @@ public class Modificado extends FrontCommand {
     
     @Override
     public void proccess() {
-        HttpSession session = request.getSession();
-        String idHistorial = request.getParameter("id");
+        String idHistorial = request.getParameter("idHistorial");
+        String idPacMed = request.getParameter("idPacMed");
         String sintomas = request.getParameter("sintomas");
         boolean cambiado = historialFacade.update(Integer.parseInt(idHistorial),sintomas);
         List<Historial> historial = (List<Historial>) historialFacade.findAll();
-        for (Historial h : historial) {
-            String aaa = h.getSintomas();
-        }
         if(cambiado){
-            session.setAttribute("sintomas", sintomas);
             try {
+                request.setAttribute("historial", historial);
+                request.setAttribute("relacionado", idPacMed);
                 forward("/ModificarHistorial.jsp");
             } catch (ServletException | IOException ex) {
                 Logger.getLogger(LoggedMedico.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-
+    
     private HistorialFacade lookupHistorialFacadeBean() {
         try {
             Context c = new InitialContext();
