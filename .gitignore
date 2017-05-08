@@ -1,3 +1,9 @@
 /nbproject/private/
 /AS-war/nbproject/private/
 /AS-ejb/nbproject/private/
+/AS-ejb/build/
+/AS-ejb/dist/
+/build/
+/dist/
+/AS-war/dist/
+/AS-war/build/

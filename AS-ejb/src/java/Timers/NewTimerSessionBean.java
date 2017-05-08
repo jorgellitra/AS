@@ -11,23 +11,39 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 
 /**
  *
- * @author Usuario
+ * @author entrar
  */
-@Stateless
+@Singleton
 @LocalBean
-public class Timer {
-
-    /*@EJB
+public class NewTimerSessionBean {
+    @EJB
     private RecetasFacade recetasFacade;
-
-    @Schedule(minute = "10", second = "5", dayOfMonth = "*", month = "*", year = "*", hour = "*", dayOfWeek = "Mon-Sun")
+  /*  @EJB
+    private RecetasFacade recetasFacade;
+*/
+    String notificacion;
+    @Schedule(minute = "*", second = "*", hour = "*")
     
-    public String myTimer() {
+    public void myTimer() {
+        Date today = new Date();
+        List<Recetas> listaRecetas = (List<Recetas>) recetasFacade.findAll();
+        for (Recetas r : listaRecetas) {
+            if(r.getInicio().before(today) && r.getFin().after(today)){
+                notificacion = "Debe tomarse las pastillas: " + r.getIdMedicinas().getNombre();
+                System.out.println("Debe tomarse las pastillas: " + r.getIdMedicinas().getNombre());
+            }
+        }
+    }
+    public String getNotificacion(){
+        return notificacion;
+    }
+
+    /*public String myTimer() {
         Date today = new Date();
         List<Recetas> listaRecetas = (List<Recetas>) recetasFacade.findAll();
         for (Recetas r : listaRecetas) {
